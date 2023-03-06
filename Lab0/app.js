@@ -18,5 +18,9 @@ function addStudent() {
     newIndicator.className = "green";
     newRow.cells[5].appendChild(newIndicator);
     newRow.cells[6].appendChild(buttonWrapper.cloneNode(true));
+}
 
+function deleteStudent(element) {
+    let tableBody = element.parentNode.parentNode.parentNode.parentNode;
+    tableBody.removeChild(element.parentNode.parentNode.parentNode)
 }
