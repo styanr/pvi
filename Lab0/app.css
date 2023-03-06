@@ -1,3 +1,7 @@
+body {
+    --bs-body-font-family: 'Inter', var(--bs-font-sans-serif);
+}
+
 .students-table,
 #students-table th,
 #students-table td {
@@ -9,6 +13,7 @@
     width: 100%;
     border-collapse: collapse;
 }
+
 
 #students-table td,
 #students-table th {
@@ -25,5 +30,5 @@
 }
 
 .navbar {
-    box-shadow: -3px -11px 18px 14px rgba(0, 0, 0, 0.5)
+    box-shadow: inset 0px 50px 30px -32px rgb(45, 51, 56), -3px -11px 18px 14px rgba(0, 0, 0, 0.5);
 }
