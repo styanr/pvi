@@ -1,17 +1,17 @@
 .students-table,
-.students-table th,
-.students-table td {
+#students-table th,
+#students-table td {
     border: 1px solid black;
 }
 
-.students-table {
+#students-table {
     min-width: 100%;
     width: 100%;
     border-collapse: collapse;
 }
 
-.students-table td,
-.students-table th {
+#students-table td,
+#students-table th {
     text-align: center;
     padding: 10px;
 }
