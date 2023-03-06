@@ -1,0 +1,24 @@
+.students-table,
+.students-table th,
+.students-table td {
+    border: 1px solid black;
+}
+
+.students-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.students-table td,
+.students-table th {
+    text-align: center;
+    padding: 10px;
+}
+
+.green {
+    margin: 0 auto;
+    background-color: green;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+}
