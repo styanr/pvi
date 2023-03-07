@@ -29,3 +29,20 @@ function showDot() {
     let notif = document.getElementById("notif");
     notif.className = "notif";
 }
+
+function showNotifications() {
+    let overlay = document.getElementById("overlay");
+    setTimeout(function () {
+        overlay.hidden = false;
+        setTimeout(function () {
+            overlay.classList.remove("hidden");
+        }, 100)
+    }, 2000)
+}
+
+function closePopup() {
+    overlay.classList.add("hidden");
+    setTimeout(function () {
+        overlay.hidden = true;
+    }, 100)
+}
