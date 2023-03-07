@@ -24,3 +24,8 @@ function deleteStudent(element) {
     let tableBody = element.parentNode.parentNode.parentNode.parentNode;
     tableBody.removeChild(element.parentNode.parentNode.parentNode)
 }
+
+function showDot() {
+    let notif = document.getElementById("notif");
+    notif.className = "notif";
+}
