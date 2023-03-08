@@ -30,14 +30,20 @@ function showDot() {
     notif.className = "notif";
 }
 
+let timer = null;
+
 function showNotifications() {
     let overlay = document.getElementById("overlay");
-    setTimeout(function () {
+    timer = setTimeout(function () {
         overlay.hidden = false;
         setTimeout(function () {
             overlay.classList.remove("hidden");
         }, 100)
     }, 2000)
+}
+
+function clearTimer() {
+    clearTimeout(timer);
 }
 
 function closePopup() {
