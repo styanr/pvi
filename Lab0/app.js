@@ -30,23 +30,71 @@ function showDot() {
     notif.className = "notif";
 }
 
-let timer = null;
+const Buttons = {
+    OK: 0,
+    Cancel: 1
+}
 
+const overlay = document.getElementById("overlay");
+
+function createPopup(title, content, buttonsList) {
+    const notificationWindow = document.createElement("div");
+    notificationWindow.className = "alerts";
+
+    const notificationHeading = document.createElement("h2");
+    notificationHeading.textContent = title;
+    notificationWindow.appendChild(notificationHeading);
+
+    const notificationContent = document.createElement("p");
+    notificationContent.textContent = content;
+    notificationWindow.appendChild(notificationContent);
+
+    overlay.appendChild(notificationWindow);
+
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "buttons";
+
+    for (const btnVal in buttonsList) {
+        const button = document.createElement("button");
+        button.classList.add("btn");
+        console.log(buttonsList)
+        console.log(btnVal, Buttons.OK);
+        if (btnVal == Buttons.OK) {
+            button.classList.add("btn-outline-success", "mx-1");
+            button.textContent = "OK";
+            button.onclick = closePopup;
+        }
+        else if (btnVal == Buttons.Cancel) {
+            button.classList.add("btn-outline-danger", "mx-1");
+            button.textContent = "Cancel";
+            button.onclick = closePopup;
+        }
+        buttonsContainer.appendChild(button);
+    }
+    notificationWindow.appendChild(buttonsContainer);
+}
+
+let timer = null;
 function showNotifications() {
-    let overlay = document.getElementById("overlay");
     timer = setTimeout(function () {
         overlay.hidden = false;
         setTimeout(function () {
+            createPopup("Notifications", "You have 5 new notifications", [Buttons.OK]);
             overlay.classList.remove("hidden");
         }, 100)
-    }, 2000)
+    }, 1000)
 }
 
 function clearTimer() {
+    console.log("timer cleared");
+    overlay.innerHTML = "";
     clearTimeout(timer);
 }
 
-function closePopup() {
+function closePopup(e) {
+    const button = e.target;
+    console.log(returnVal);
+    button.parentNode.parentNode.remove();
     overlay.classList.add("hidden");
     setTimeout(function () {
         overlay.hidden = true;
