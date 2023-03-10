@@ -1,6 +1,12 @@
 const studentsTable = document.getElementById("students-table");
 const buttonWrapper = document.getElementById("button-wrapper");
 
+
+const Buttons = {
+    Cancel: 0,
+    OK: 1,
+}
+
 function addStudent() {
     let newRow = studentsTable.insertRow(-1);
     const cellCount = studentsTable.rows[0].cells.length;
@@ -21,8 +27,18 @@ function addStudent() {
 }
 
 function deleteStudent(element) {
-    let tableBody = element.parentNode.parentNode.parentNode.parentNode;
-    tableBody.removeChild(element.parentNode.parentNode.parentNode)
+    const thisRow = element.parentNode.parentNode.parentNode;
+    const thisBody = thisRow.parentNode;
+    const thisName = thisRow.cells[2].textContent;
+    const buttonList = createPopup("Removing " + thisName, `Are you sure you want to remove ${thisName}?`, [Buttons.OK, Buttons.Cancel]);
+    for (const button of buttonList) {
+        console.log(button.role);
+        if (button.role == Buttons.OK) {
+            button.addEventListener("click", function () {
+                thisBody.removeChild(thisRow);
+            })
+        }
+    }
 }
 
 function showDot() {
@@ -30,14 +46,12 @@ function showDot() {
     notif.className = "notif";
 }
 
-const Buttons = {
-    OK: 0,
-    Cancel: 1
-}
 
 const overlay = document.getElementById("overlay");
 
-function createPopup(title, content, buttonsList) {
+
+function createPopup(title, content, buttonRoleList) {
+    const buttonList = [];
     const notificationWindow = document.createElement("div");
     notificationWindow.className = "alerts";
 
@@ -54,47 +68,51 @@ function createPopup(title, content, buttonsList) {
     const buttonsContainer = document.createElement("div");
     buttonsContainer.className = "buttons";
 
-    for (const btnVal in buttonsList) {
+    for (const btnVal of buttonRoleList) {
         const button = document.createElement("button");
         button.classList.add("btn");
-        console.log(buttonsList)
         console.log(btnVal, Buttons.OK);
         if (btnVal == Buttons.OK) {
             button.classList.add("btn-outline-success", "mx-1");
+            button.role = Buttons.OK;
             button.textContent = "OK";
-            button.onclick = closePopup;
         }
         else if (btnVal == Buttons.Cancel) {
             button.classList.add("btn-outline-danger", "mx-1");
+            button.role = Buttons.Cancel;
             button.textContent = "Cancel";
-            button.onclick = closePopup;
         }
+        buttonList.push(button);
+        button.addEventListener("click", closePopup);
         buttonsContainer.appendChild(button);
     }
     notificationWindow.appendChild(buttonsContainer);
+    overlay.hidden = false;
+    setTimeout(function () {
+        overlay.classList.remove("hidden");
+    }, 100)
+    overlay.classList.remove("hidden");
+    return buttonList;
 }
 
 let timer = null;
+
 function showNotifications() {
     timer = setTimeout(function () {
-        overlay.hidden = false;
-        setTimeout(function () {
-            createPopup("Notifications", "You have 5 new notifications", [Buttons.OK]);
-            overlay.classList.remove("hidden");
-        }, 100)
+        createPopup("Notifications", "You have 1345 new notifications.", [Buttons.OK]);
     }, 1000)
 }
 
 function clearTimer() {
     console.log("timer cleared");
-    overlay.innerHTML = "";
+    if (overlay.hidden) {
+        overlay.innerHTML = "";
+    }
     clearTimeout(timer);
 }
 
-function closePopup(e) {
-    const button = e.target;
-    console.log(returnVal);
-    button.parentNode.parentNode.remove();
+function closePopup() {
+    overlay.innerHTML = "";
     overlay.classList.add("hidden");
     setTimeout(function () {
         overlay.hidden = true;
