@@ -1,6 +1,26 @@
 const studentsTable = document.getElementById("students-table");
 const buttonWrapper = document.getElementById("button-wrapper");
+const pages = this.document.getElementById("pages");
 
+let listHidden = false;
+const savedPos = pages.getBoundingClientRect();
+const navPos = document.getElementById("main-nav").getBoundingClientRect();
+const bottomPos = savedPos.bottom - navPos.bottom;
+window.addEventListener("scroll", function () {
+    const rect = pages.getBoundingClientRect();
+    console.log(this.scrollY, savedPos.bottom - navPos.bottom);
+    console.log(window.matchMedia('(max-width: 720px)').matches, window.screen.width);
+    console.log(this.scrollY > bottomPos, window.matchMedia('(min-width: 720px)').matches)
+    if (this.scrollY > bottomPos && window.matchMedia('(min-width: 720px)').matches) {
+        pages.parentNode.style.display = "none";
+        listHidden = true;
+    }
+    else if (listHidden) {
+        pages.parentNode.style.position = "";
+        pages.parentNode.style.display = "";
+        listHidden = false;
+    }
+})
 
 const Buttons = {
     Cancel: 0,
@@ -21,7 +41,7 @@ function addStudent() {
     newRow.cells[3].textContent = "NB";
     newRow.cells[4].textContent = "01.01.2004";
     let newIndicator = document.createElement("div");
-    newIndicator.className = "green";
+    newIndicator.className = "green-dot";
     newRow.cells[5].appendChild(newIndicator);
     newRow.cells[6].appendChild(buttonWrapper.cloneNode(true));
 }
@@ -87,11 +107,10 @@ function createPopup(title, content, buttonRoleList) {
         buttonsContainer.appendChild(button);
     }
     notificationWindow.appendChild(buttonsContainer);
-    overlay.hidden = false;
     setTimeout(function () {
         overlay.classList.remove("hidden");
     }, 100)
-    overlay.classList.remove("hidden");
+    overlay.hidden = false;
     return buttonList;
 }
 
