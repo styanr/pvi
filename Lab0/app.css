@@ -10,7 +10,7 @@ span {
     transition: 100ms;
 }
 
-.students-table,
+#students-table,
 #students-table th,
 #students-table td {
     border: 1px solid black;
