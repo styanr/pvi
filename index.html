@@ -164,39 +164,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox">
-                                        </td>
-                                        <td>KN-21</td>
-                                        <td>John Smith</td>
-                                        <td>M</td>
-                                        <td>11.05.2004</td>
-                                        <td>
-                                            <div class="green-dot"></div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center" id="button-wrapper">
-                                                <button
-                                                    class="btn btn-outline-secondary d-flex align-items-center mx-1 py-2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                                    </svg>
-                                                </button>
-                                                <button
-                                                    class="btn btn-outline-secondary d-flex align-items-center mx-1 py-2"
-                                                    onclick="deleteStudent(this)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -218,6 +185,58 @@
         </div>
     </main>
     <div id="overlay" class="hidden" hidden></div>
+    <form class="d-none" id="edit-form">
+        <div class="row my-3 g-0">
+            <label class="form-label col-xl-3 col-form-label" for="group-select">Group</label>
+            <select class="form-select col-xl" id="group-select" required aria-label="Select Group">
+                <option value="" selected disabled>Select Group</option>
+                <option>KN-21</option>
+                <option>PZ-21</option>
+                <option>PZ-22</option>
+            </select>
+        </div>
+        <div class="row mb-3 g-0">
+            <label class="form-label col-xl-3 col-form-label" for="name-input">Name</label>
+            <input type="text" id="name-input" class="form-control col-xl" required>
+        </div>
+        <div class="row mb-3 g-0">
+            <label class="form-label col-xl-3 col-form-label" for="surname-input">Surname</label>
+            <input type="text" id="surname-input" class="form-control col-xl" required>
+        </div>
+        <div class="row mb-3 g-0">
+            <label class="form-label col-xl-3 col-form-label" for="group-select">Gender</label>
+            <select class="form-select col-xl" id="gender-select" required aria-label="Select Gender">
+                <option value="" selected disabled>Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Non-Binary</option>
+            </select>
+        </div>
+        <div class="row mb-3 g-0">
+            <label class="form-label col-xl-3 col-form-label" for="date-select">Birthday</label>
+            <input type="date" id="date-select" class="form-control col-xl" required>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-outline-danger me-2 button-cancel">Cancel</button>
+            <button type="submit" class="btn btn-outline-success button-submit">Submit</button>
+        </div>
+    </form>
+    <div class="d-flex d-none justify-content-center" id="button-wrapper">
+        <button class="btn btn-outline-secondary d-flex align-items-center mx-1 py-2 edit-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
+                viewBox="0 0 16 16">
+                <path
+                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+            </svg>
+        </button>
+        <button class="btn btn-outline-secondary d-flex align-items-center mx-1 py-2 delete-button">
+            <svg xmlns=" http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
+                viewBox="0 0 16 16">
+                <path
+                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+            </svg>
+        </button>
+    </div>
     <!-- JQuery  -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
