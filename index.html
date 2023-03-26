@@ -184,7 +184,9 @@
             </div>
         </div>
     </main>
+
     <div id="overlay" class="hidden" hidden></div>
+
     <form class="d-none" id="edit-form">
         <div class="row my-3 g-0">
             <label class="form-label col-xl-3 col-form-label" for="group-select">Group</label>
@@ -217,10 +219,11 @@
             <input type="date" id="date-select" class="form-control col-xl" required>
         </div>
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-danger me-2 button-cancel">Cancel</button>
-            <button type="submit" class="btn btn-outline-success button-submit">Submit</button>
+            <button type="submit" class="btn btn-outline-success me-2 button-submit">Submit</button>
+            <button type="button" class="btn btn-outline-danger button-cancel">Cancel</button>
         </div>
     </form>
+
     <div class="d-flex d-none justify-content-center" id="button-wrapper">
         <button class="btn btn-outline-secondary d-flex align-items-center mx-1 py-2 edit-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"

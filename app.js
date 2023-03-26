@@ -8,6 +8,14 @@ class Student {
         this.birthday = birthday;
         this.id = id;
     }
+
+    updateFromForm(form) {
+        this.group = form.find("#group-select").val();
+        this.name = form.find("#name-input").val();
+        this.surname = form.find("#surname-input").val();
+        this.gender = form.find("#gender-select").val();
+        this.birthday = form.find("#date-select").val();
+    }
 }
 
 const students = [];
@@ -21,19 +29,18 @@ let listHidden = false;
 const savedPos = pages.getBoundingClientRect();
 const navPos = mainNav.getBoundingClientRect();
 const pagesStyle = getComputedStyle(pages);
-const bottomPos = pages.offsetHeight - parseFloat(getComputedStyle(pages).getPropertyValue("padding-bottom"));
+const bottomPos = pages.offsetHeight - parseFloat((pagesStyle).getPropertyValue("padding-bottom"));
 console.log(savedPos.bottom);
 let lastScroll = 0;
 
 window.addEventListener("scroll", function () {
-    let thisScoll = this.scrollY;
-    if (thisScoll > lastScroll) {
+    let thisScroll = this.scrollY;
+    if (thisScroll > lastScroll) {
         mainNav.style.top = `-${mainNav.offsetHeight}px`;
-    }
-    else {
+    } else {
         mainNav.style.top = "0";
     }
-    lastScroll = thisScoll;
+    lastScroll = thisScroll;
     if (this.scrollY > bottomPos && window.matchMedia('(min-width: 720px)').matches) {
         pages.parentNode.style.display = "none";
         listHidden = true;
@@ -62,74 +69,89 @@ function generateUniqueID() {
     return id;
 }
 
+function populateForm(form, student) {
+    form.find("#group-select").val(student.group);
+    form.find("#name-input").val(student.name);
+    form.find("#surname-input").val(student.surname);
+    form.find("#gender-select").val(student.gender);
+    form.find("#date-select").val(student.birthday);
+}
+
+function createRow(student) {
+    const newRow = $("<tr>");
+    newRow.append($("<td>").append($("<input>").attr("type", "checkbox")));
+    for (let i = 0; i < 4; i++) {
+        newRow.append($("<td>"));
+    }
+    newRow.append($("<td>").append($("<div>").addClass("green-dot")));
+    newRow.append($("<td>").append($("#button-wrapper").clone().removeClass("d-none")));
+    return newRow;
+}
+
+function populateRow(row, student) {
+    row.find("td:nth-child(2)").text(student.group);
+    row.find("td:nth-child(3)").text(`${student.name} ${student.surname}`);
+    row.find("td:nth-child(4)").text(student.gender);
+    row.find("td:nth-child(5)").text(student.birthday);
+}
+
+function logAction(action, student) {
+    let thisAction;
+    if (action === "delete") {
+        thisAction = {
+            action: action,
+            id: student.id
+        };
+    } else {
+        thisAction = {
+            action: action,
+            student: student
+        };
+    }
+    console.log(JSON.stringify(thisAction));
+}
+
 function createForm(name, id = -1) {
     id = Number(id);
     const notificationWindow = createPopup(name, "", []);
-    $(notificationWindow).children("p").remove();
-    $(notificationWindow).children(".buttons").remove();
+    $(notificationWindow).children("p, .buttons").remove();
     const newEditForm = $("#edit-form").clone();
     newEditForm.removeAttr("class");
     $(newEditForm).find(".button-cancel").click(closePopup);
     $(notificationWindow).children("h2").after(newEditForm);
 
     let action;
-
+    let selectedStudent;
     if (id >= 0) {
         action = "edit";
-        const thisStudent = students.find((student) => Number(student.id) === Number(id));
-        console.log(thisStudent);
-        newEditForm.find("#group-select").val(thisStudent.group);
-        newEditForm.find("#name-input").val(thisStudent.name);
-        newEditForm.find("#surname-input").val(thisStudent.surname);
-        newEditForm.find("#gender-select").val(thisStudent.gender);
-        newEditForm.find("#date-select").val(thisStudent.birthday);
-        newEditForm.submit(function (e) {
-            e.preventDefault();
-            thisStudent.group = newEditForm.find("#group-select").val();
-            thisStudent.name = newEditForm.find("#name-input").val();
-            thisStudent.surname = newEditForm.find("#surname-input").val();
-            thisStudent.gender = newEditForm.find("#gender-select").val();
-            thisStudent.birthday = newEditForm.find("#date-select").val();
-            console.log(thisStudent);
+        const selectedStudent = students.find((student) => Number(student.id) === Number(id));
 
-            const thisRow = $(`tr[data-id=${thisStudent.id}]`);
-            thisRow.find("td:nth-child(2)").text(thisStudent.group);
-            thisRow.find("td:nth-child(3)").text(`${thisStudent.name} ${thisStudent.surname}`);
-            thisRow.find("td:nth-child(4)").text(thisStudent.gender);
-            thisRow.find("td:nth-child(5)").text(thisStudent.birthday);
-            const thisStudentAction = {
-                action: action,
-                student: thisStudent
-            };
-            console.log(JSON.stringify(thisStudentAction));
+        populateForm(newEditForm, selectedStudent);
+
+        newEditForm.submit((e) => {
+            e.preventDefault();
+            selectedStudent.updateFromForm(newEditForm);
+            const thisRow = $(`tr[data-id=${selectedStudent.id}]`);
+            populateRow(thisRow, selectedStudent);
+            logAction(action, selectedStudent);
             closePopup();
         });
     }
     else {
         action = "add";
-        newEditForm.submit(function (e) {
+        newEditForm.submit((e) => {
             e.preventDefault();
-            const newRow = $("<tr>");
-            newRow.append($("<td>").append($("<input>").attr("type", "checkbox")));
-            newRow.append($("<td>").text(newEditForm.find("#group-select").val()));
-            newRow.append($("<td>").text(`${newEditForm.find("#name-input").val()} ${newEditForm.find("#surname-input").val()}`));
-            newRow.append($("<td>").text(newEditForm.find("#gender-select").val()));
-            newRow.append($("<td>").text(newEditForm.find("#date-select").val()));
-            newRow.append($("<td>").text());
-            newRow.append($("<td>").append($("<div>").addClass("green-dot")));
-            newRow.append($("<td>").append($("#button-wrapper").clone().removeClass("d-none")));
-            const thisStudent = new Student(newEditForm.find("#group-select").val(),
-                newEditForm.find("#name-input").val(),
-                newEditForm.find("#surname-input").val(),
-                newEditForm.find("#gender-select").val(),
-                newEditForm.find("#date-select").val(),
-                generateUniqueID());
-            students.push(thisStudent);
-            studentIDs.add(thisStudent.id);
-            console.log(thisStudent.id);
-            console.log($("#edit-button"));
-            console.log(newRow);
-            $(newRow).attr("data-id", thisStudent.id);
+            selectedStudent = new Student();
+            selectedStudent.updateFromForm(newEditForm);
+            selectedStudent.id = generateUniqueID();
+
+            const newRow = createRow();
+            populateRow(newRow, selectedStudent);
+
+            students.push(selectedStudent);
+            studentIDs.add(selectedStudent.id);
+
+            $(newRow).attr("data-id", selectedStudent.id);
             $("#students-table > tbody").append(newRow);
 
 
@@ -139,11 +161,7 @@ function createForm(name, id = -1) {
             $(newRow).find(".delete-button").click(function () {
                 deleteStudent($(this).parent().parent().parent().data("id"));
             });
-            const thisStudentAction = {
-                action: action,
-                student: thisStudent
-            };
-            console.log(JSON.stringify(thisStudentAction));
+            logAction(action, selectedStudent);
             closePopup();
         });
     }
@@ -161,10 +179,8 @@ $("#add-button").click(function () {
 });
 
 function deleteStudent(id) {
-    console.log(id);
     const thisStudent = students.find((student) => Number(student.id) === Number(id));
-    const notificationWindow = createPopup("Warning", `Are you sure you want to delete user ${thisStudent.name} ? `, [Buttons.OK, Buttons.Cancel]);
-    console.log(notificationWindow.find("button"));
+    const notificationWindow = createPopup("Warning", `Are you sure you want to delete user ${thisStudent.name}?`, [Buttons.OK, Buttons.Cancel]);
     for (const button of notificationWindow.find("button")) {
         if ($(button).attr("role") == Buttons.OK) {
             button.addEventListener("click", function () {
