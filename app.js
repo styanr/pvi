@@ -1,3 +1,14 @@
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(function () {
+            console.log('sw registered');
+        })
+        .catch(function (e) {
+            console.log('sw-error:', e);
+        });
+} else {
+    console.error('this browser does not support service workers');
+}
 
 class Student {
     constructor(group, name, surname, gender, birthday, id) {
@@ -168,7 +179,6 @@ function createForm(name, id = -1) {
 }
 
 $("#add-button").on("keydown", function (event) {
-    console.log(event);
     if (event.keyCode === 13) {
         event.preventDefault();
     }
