@@ -131,9 +131,32 @@ span {
     box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
 }
 
-.alerts h2 {
+.heading-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    width: 100%;
     border-bottom: 1px solid black;
-    padding-bottom: 10px;
+}
+
+.heading-wrapper button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: calc(1.325rem + .9vw);
+    color: var(--bs-danger);
+}
+
+.icon-hover {
+    display: none;
+}
+
+.heading-wrapper button:hover i {
+    display: none;
+}
+
+.heading-wrapper button:hover .icon-hover {
+    display: block;
 }
 
 .alerts .buttons {

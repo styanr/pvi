@@ -129,7 +129,7 @@ function createForm(name, id = -1) {
     const newEditForm = $("#edit-form").clone();
     newEditForm.removeAttr("class");
     $(newEditForm).find(".button-cancel").click(closePopup);
-    $(notificationWindow).children("h2").after(newEditForm);
+    $(notificationWindow).children(".heading-wrapper").after(newEditForm);
 
     let action;
     let selectedStudent;
@@ -220,8 +220,14 @@ const overlay = document.getElementById("overlay");
 function createPopup(title, content, buttonRoleList) {
     const notificationWindow = $("<div>").addClass("alerts");
 
+    const headingWrapper = $("<div>").addClass("heading-wrapper");
     const notificationHeading = $("<h2>").text(title);
-    notificationWindow.append(notificationHeading);
+    headingWrapper.append(notificationHeading);
+    const closeButton = $("<button>").click(closePopup).append($("<i>").addClass("bi bi-x-square"));
+    closeButton.append($("<i>").addClass("bi bi-x-square-fill icon-hover")).click(closePopup);
+    console.log(closeButton);
+    headingWrapper.append(closeButton);
+    notificationWindow.append(headingWrapper);
 
     const notificationContent = $("<p>").text(content);
     notificationWindow.append(notificationContent);
